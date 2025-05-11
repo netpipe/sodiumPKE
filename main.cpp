@@ -15,13 +15,13 @@ public:
         }
     }
 
-void generateX448KeyPair(QByteArray &privateKey, QByteArray &publicKey) {
-    privateKey.resize(crypto_scalarmult_BYTES);  // 56 bytes for X448 private key
-    publicKey.resize(crypto_scalarmult_BYTES);   // 56 bytes for X448 public key
+    void generateX448KeyPair(QByteArray &privateKey, QByteArray &publicKey) {
+        privateKey.resize(crypto_scalarmult_BYTES);  // 56 bytes for X448 private key
+        publicKey.resize(crypto_scalarmult_BYTES);   // 56 bytes for X448 public key
 
-    crypto_scalarmult_base(reinterpret_cast<unsigned char*>(publicKey.data()),
-                           reinterpret_cast<const unsigned char*>(privateKey.data()));
-}
+        crypto_scalarmult_base(reinterpret_cast<unsigned char*>(publicKey.data()),
+                               reinterpret_cast<const unsigned char*>(privateKey.data()));
+    }
 
     // Generate an X25519 key pair (public/private)
     void generateKeyPair(QByteArray &privateKey, QByteArray &publicKey) {
@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
 
     // Generate Key Pair
     sodium.generateKeyPair(privateKey, publicKey);
+   // sodium.generateX448KeyPair(privateKey, publicKey);
 
     qDebug() << "Private Key:" << privateKey.toHex();
     qDebug() << "Public Key:" << publicKey.toHex();
@@ -95,6 +96,7 @@ int main(int argc, char *argv[])
     // Decrypt the message
     QByteArray decryptedMessage = sodium.decrypt(encryptedMessage, publicKey, privateKey);
     qDebug() << "Decrypted Message:" << decryptedMessage;
-exit(1);
+
+    exit(1);
     return a.exec();
 }
